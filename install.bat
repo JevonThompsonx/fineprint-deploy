@@ -41,5 +41,8 @@ echo Installing pdfFactory...
 
 echo Cleaning up...
 rd /s /q "%TEMP_DIR%"
-
+echo adding product keys
+:: Add FinePrint license key
+reg add "HKCU\SOFTWARE\FinePrint Software\FinePrint11" /v RegNum /t REG_SZ /d ${prodkey} /f
+reg add "HKLM\SOFTWARE\FinePrint Software\FinePrint11" /v RegNum /t REG_SZ /d ${prodkey} /f
 echo Done.
