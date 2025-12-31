@@ -29,6 +29,10 @@ echo Extracting pdfFactory...
 :: Ensure spooler is running
 net start spooler >nul 2>&1
 
+:: Restart WMI to release file handles
+net stop winmgmt /y >nul 2>&1
+net start winmgmt >nul 2>&1
+
 echo Installing FinePrint...
 "%TEMP_DIR%\fp\setup-x64.exe" /install /quiet=4109 /force /noini /restartspooler
 
