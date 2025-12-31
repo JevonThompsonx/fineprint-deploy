@@ -6,6 +6,14 @@ set "TEMP_DIR=%temp%\fineprint-deploy"
 
 mkdir "%TEMP_DIR%" 2>nul
 
+:: Check for 7-Zip and install if needed
+if not exist "C:\Program Files\7-Zip\7z.exe" (
+    echo Installing 7-Zip...
+    powershell -command "Invoke-WebRequest -Uri 'https://www.7-zip.org/a/7z2501-x64.exe' -OutFile '%TEMP_DIR%\7z.exe'"
+    "%TEMP_DIR%\7z.exe" /S
+    timeout /t 3 >nul
+)
+
 echo Downloading FinePrint...
 powershell -command "Invoke-WebRequest -Uri '%REPO%/fp1144.exe' -OutFile '%TEMP_DIR%\fp1144.exe'"
 
