@@ -26,12 +26,12 @@ echo Extracting FinePrint...
 echo Extracting pdfFactory...
 "C:\Program Files\7-Zip\7z.exe" x "%TEMP_DIR%\pdf844std.exe" -o"%TEMP_DIR%\pdf" -y >nul
 
-:: Ensure spooler is running
+:: Stop services that might hold file locks
+echo Preparing system...
+net stop spooler >nul 2>&1
+taskkill /f /im wmiprvse.exe >nul 2>&1
+timeout /t 2 >nul
 net start spooler >nul 2>&1
-
-:: Restart WMI to release file handles
-net stop winmgmt /y >nul 2>&1
-net start winmgmt >nul 2>&1
 
 echo Installing FinePrint...
 "%TEMP_DIR%\fp\setup-x64.exe" /install /quiet=4109 /force /noini /restartspooler
