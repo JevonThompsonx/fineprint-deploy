@@ -7,16 +7,26 @@ set "TEMP_DIR=%temp%\fineprint-deploy"
 mkdir "%TEMP_DIR%" 2>nul
 
 echo Downloading FinePrint...
-powershell -command "Invoke-WebRequest -Uri '%REPO%/fp/setup-x64.exe' -OutFile '%TEMP_DIR%\fp-setup.exe'"
+powershell -command "Invoke-WebRequest -Uri '%REPO%/fp1144.exe' -OutFile '%TEMP_DIR%\fp1144.exe'"
 
 echo Downloading pdfFactory...
-powershell -command "Invoke-WebRequest -Uri '%REPO%/pdffactory/setup-x64.exe' -OutFile '%TEMP_DIR%\pdf-setup.exe'"
+powershell -command "Invoke-WebRequest -Uri '%REPO%/pdf844std.exe' -OutFile '%TEMP_DIR%\pdf844std.exe'"
+
+echo Extracting FinePrint...
+"C:\Program Files\7-Zip\7z.exe" x "%TEMP_DIR%\fp1144.exe" -o"%TEMP_DIR%\fp" -y >nul
+
+echo Extracting pdfFactory...
+"C:\Program Files\7-Zip\7z.exe" x "%TEMP_DIR%\pdf844std.exe" -o"%TEMP_DIR%\pdf" -y >nul
 
 echo Installing FinePrint...
-"%TEMP_DIR%\fp-setup.exe" /install /quiet
+net stop spooler >nul 2>&1
+"%TEMP_DIR%\fp\setup-x64.exe" /install /quiet=4109 /force
+net start spooler >nul 2>&1
 
 echo Installing pdfFactory...
-"%TEMP_DIR%\pdf-setup.exe" /install /quiet
+net stop spooler >nul 2>&1
+"%TEMP_DIR%\pdf\setup-x64.exe" /install /quiet=4109 /force
+net start spooler >nul 2>&1
 
 echo Cleaning up...
 rd /s /q "%TEMP_DIR%"
