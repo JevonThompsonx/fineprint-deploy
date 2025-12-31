@@ -26,11 +26,14 @@ echo Extracting FinePrint...
 echo Extracting pdfFactory...
 "C:\Program Files\7-Zip\7z.exe" x "%TEMP_DIR%\pdf844std.exe" -o"%TEMP_DIR%\pdf" -y >nul
 
+:: Ensure spooler is running
+net start spooler >nul 2>&1
+
 echo Installing FinePrint...
-"%TEMP_DIR%\fp\setup-x64.exe" /install /quiet=4109 /force
+"%TEMP_DIR%\fp\setup-x64.exe" /install /quiet=4109 /force /noini
 
 echo Installing pdfFactory...
-"%TEMP_DIR%\pdf\setup-x64.exe" /install /quiet=4109 /force
+"%TEMP_DIR%\pdf\setup-x64.exe" /install /quiet=4109 /force /noini
 
 echo Cleaning up...
 rd /s /q "%TEMP_DIR%"
